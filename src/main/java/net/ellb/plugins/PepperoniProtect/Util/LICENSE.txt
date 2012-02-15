@@ -1,0 +1,14 @@
+The SpicyCode license version 1.0
+©Elliot Beskow 2012
+
+    The SpicyCode License (also "SpicyCode" or "the license") is a open source license written for the SpicyPack. The license is designed to allow you to use parts of the code in your Bukkit plugins, or other Java projects, if you leave credits (specified in Terms and Conditions) to the developers of the SpicyPack.
+
+
+SpicyCode Terms and Conditions
+
+According to the SpicyCode license, you are allowed to do, and not do the following: 
+§0 If your Java project is a Bukkit plugin. Which means that it is represented by a plugin.yml file, and is runnable from the Bukkit Minecraft server modification. Then you'll need to follow guidelines in the following part (§1). 
+
+§1 If you use ANY of the code from the project unmodified, your project needs to be open source, and you will need to leave credits in the source, alternatively on the plugins page on the Bukkit forums, BukkitDev or other websites. If you however modify the source, which means changing most of variable names, then you are free to use it as your own code. 
+
+§2 If the project that you are using the code for is NOT a Bukkit plugin - which determines that the code is independent of the Bukkit API, and therefore is basic Java that you can use in any Java application - then you can use the code however you want to. As long as not for commercial purposes. 
