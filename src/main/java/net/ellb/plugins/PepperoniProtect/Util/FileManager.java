@@ -11,11 +11,13 @@ package net.ellb.plugins.PepperoniProtect.Util;
 //The class that will replace PepperoniAreasFile and PepperoniConfiguration - cool, isn't it ;-)
 
 import java.io.File;
+import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class FileManager {
 
     public enum PepperoniFile {
+
         CONFIG, AREAS, BOTH
     };
     public YamlConfiguration Areas;
@@ -24,14 +26,38 @@ public class FileManager {
     public File ConfigFile = new File("");
 
     public void Load(PepperoniFile pf) {
-        if(pf == PepperoniFile.AREAS){
+        if (pf == PepperoniFile.AREAS) {
             Areas = YamlConfiguration.loadConfiguration(AreasFile);
-        }else if (pf == PepperoniFile.CONFIG){
+        } else if (pf == PepperoniFile.CONFIG) {
             Config = YamlConfiguration.loadConfiguration(ConfigFile);
-        }else{
+        } else {
             Config = YamlConfiguration.loadConfiguration(ConfigFile);
             Areas = YamlConfiguration.loadConfiguration(AreasFile);
         }
     }
-    
+
+    public void Save(PepperoniFile pf) {
+        try {
+            if (pf == PepperoniFile.AREAS) {
+                Areas.save(AreasFile);
+            } else if (pf == PepperoniFile.CONFIG) {
+                Config = YamlConfiguration.loadConfiguration(ConfigFile);
+            } else {
+                Config = YamlConfiguration.loadConfiguration(ConfigFile);
+                Areas = YamlConfiguration.loadConfiguration(AreasFile);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public YamlConfiguration getConfig(PepperoniFile pf) {
+        if (pf == PepperoniFile.AREAS) {
+            return Areas;
+        } else if (pf == PepperoniFile.CONFIG) {
+            return Config;
+        } else{
+            return null;
+        }
+    }
 }
