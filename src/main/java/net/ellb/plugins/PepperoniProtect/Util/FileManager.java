@@ -15,6 +15,7 @@ import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class FileManager {
+    //May move this to the Enums package as well, but who cares...
 
     public enum PepperoniFile {
 
@@ -22,8 +23,8 @@ public class FileManager {
     };
     public YamlConfiguration Areas;
     public YamlConfiguration Config;
-    public File AreasFile = new File("plugins/");
-    public File ConfigFile = new File("");
+    public File AreasFile = new File("plugins/PepperoniProtect/areas.yml");
+    public File ConfigFile = new File("plugins/PepperoniProtect/config.yml");
 
     public void Load(PepperoniFile pf) {
         if (pf == PepperoniFile.AREAS) {
@@ -41,10 +42,10 @@ public class FileManager {
             if (pf == PepperoniFile.AREAS) {
                 Areas.save(AreasFile);
             } else if (pf == PepperoniFile.CONFIG) {
-                Config = YamlConfiguration.loadConfiguration(ConfigFile);
+                Config.save(ConfigFile);
             } else {
-                Config = YamlConfiguration.loadConfiguration(ConfigFile);
-                Areas = YamlConfiguration.loadConfiguration(AreasFile);
+                Config.save(ConfigFile);
+                Areas.save(AreasFile);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -56,7 +57,7 @@ public class FileManager {
             return Areas;
         } else if (pf == PepperoniFile.CONFIG) {
             return Config;
-        } else{
+        } else {
             return null;
         }
     }
