@@ -1,0 +1,29 @@
+# PLUGIN FILE FOR PEPPERONIPROTECT. YOU ARE NOT RECOMENDED TO EDIT THIS FILE, AS IT MAY CAUSE THE PLUGIN TO NOT START, OR WORK INCORRECTLY. 
+# Changing command names will just remove the command, but you can add aliases.
+author: EllB
+database: false
+description: 'A simple way for users and admins to protect areas. '
+main: net.ellb.plugins.pepperoniprotect.PepperoniProtect
+name: PepperoniProtect
+startup: postworld
+version: '1.0 ALPHA'
+commands:
+  protect:
+    usage: /<command>
+    aliases: [pprotect]
+    description: Protect an area. 
+    permission: pepperoni.protect
+  protection:
+    usage: /<command>
+    aliases: [pprotection]
+    description: Do more things with your already protected area. 
+    permission: pepperoni.protection
+  flag:
+    usage: /<command> [FLAG]
+    aliases: [pflag]
+    description: Set different things about your already protected area. 
+    permission: pepperoni.flag
+  pepperoni:
+    usage: /<command>
+    description: Administrate the PepperoniProtect plugin, do things like reloading the config and mass-remove areas. 
+    permission: pepperoni.admin

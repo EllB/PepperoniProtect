@@ -1,0 +1,20 @@
+# The main configuration file for the PepperoniProtect plugin. 
+
+# The rules for the protection assistant to follow when talking to you/your players.
+
+chat:
+  # Color for the [Protection Assistant] label when protecting an area. Default 'd'(LIGHT_PURPLE).
+  ProtectionAssistantNameColor: 'd'
+  
+  # The color to use when the plugin is mentioning a command (such as '...area type /protect again...'). Enter color code, default 2 (DARK_GREEN)
+  CommandColor: '2'
+
+
+##!!NOT IMPLEMENTED#
+economy:
+  # Whether or not the plugin should use economy.
+  enabled: false
+  # The cost per block in an area.
+  cost: 
+    ## More economy settings coming when implementing economy. 
+#!!##
