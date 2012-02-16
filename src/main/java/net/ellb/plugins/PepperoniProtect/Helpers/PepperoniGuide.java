@@ -1,18 +1,18 @@
 /*
-* PepperoniProtect
-* Copyright (C) 2012 EllB <http://www.ellb.net/>
-* 
-* This program is a part of The SpicyPack and is
-* therefore licensed under the SpicyCode custom
-* license <http://www.plugins.ellb.net/license/>.
-*
-*/
-
+ * PepperoniProtect
+ * Copyright (C) 2012 EllB <http://www.ellb.net/>
+ * 
+ * This program is a part of The SpicyPack and is
+ * therefore licensed under the SpicyCode custom
+ * license <http://www.plugins.ellb.net/license/>.
+ *
+ */
 package net.ellb.plugins.PepperoniProtect.Helpers;
 
 import net.ellb.plugins.pepperoniprotect.Enums.MsgType;
 import java.util.HashMap;
 import java.util.Map;
+import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import net.ellb.plugins.PepperoniProtect.Protection.PepperoniArea;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -27,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class PepperoniGuide implements Listener {
 
+    public PepperoniProtect plugin;
     public Map<Player, Integer> protectionStage = new HashMap<Player, Integer>();
     public Map<Player, Integer> torch = new HashMap<Player, Integer>();
     public Map<Player, Location> torch1 = new HashMap<Player, Location>();
@@ -34,6 +35,10 @@ public class PepperoniGuide implements Listener {
     static boolean giveTorches = true;
     static Material protectionBlock = Material.REDSTONE_TORCH_ON;
     static boolean economy = false;
+
+    public PepperoniGuide(PepperoniProtect p) {
+        this.plugin = p;
+    }
 
     public void startProtection(Player p) {
         if (giveTorches == true) {
@@ -70,9 +75,8 @@ public class PepperoniGuide implements Listener {
     }
 
     public void saveArea(Player p) {
-        PepperoniArea area = new PepperoniArea();
-        area.init(torch1.get(p), torch2.get(p), p);
-        area.saveToFile();
+        plugin.getAreaManager().createArea(torch1.get(p), torch2.get(p), p);
+        plugin.getAreaManager().SaveAreas();
     }
 
     public void takeTorches(Player p) {
@@ -114,8 +118,9 @@ public class PepperoniGuide implements Listener {
 
     @EventHandler
     public void blockBreak(BlockBreakEvent e) {
-        //TODO: Add protection canceling on invalid block break.
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (e.getBlock().getType() != protectionBlock) {
+            cancelProtection(e.getPlayer());
+        }
     }
 
     public void sendMessage(MsgType mt, String msg, Player pl) {

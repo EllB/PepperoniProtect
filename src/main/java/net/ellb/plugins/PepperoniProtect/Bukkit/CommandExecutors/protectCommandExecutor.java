@@ -1,15 +1,15 @@
 /*
-* PepperoniProtect
-* Copyright (C) 2012 EllB <http://www.ellb.net/>
-* 
-* This program is a part of The SpicyPack and is
-* therefore licensed under the SpicyCode custom
-* license <http://www.plugins.ellb.net/license/>.
-*
-*/
-
+ * PepperoniProtect
+ * Copyright (C) 2012 EllB <http://www.ellb.net/>
+ * 
+ * This program is a part of The SpicyPack and is
+ * therefore licensed under the SpicyCode custom
+ * license <http://www.plugins.ellb.net/license/>.
+ *
+ */
 package net.ellb.plugins.PepperoniProtect.Bukkit.CommandExecutors;
 
+import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import net.ellb.plugins.PepperoniProtect.Helpers.PepperoniGuide;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -19,10 +19,11 @@ import org.bukkit.entity.Player;
 
 public class protectCommandExecutor implements CommandExecutor {
 
-    private PepperoniGuide guide = new PepperoniGuide();
+    public PepperoniProtect plugin;
+    private PepperoniGuide guide;
 
-    public protectCommandExecutor(PepperoniGuide g) {
-        this.guide = g;
+    public protectCommandExecutor(PepperoniProtect p) {
+        this.guide = p.getGuide();
     }
 
     public boolean onCommand(CommandSender sender, Command cmnd, String string, String[] strings) {
@@ -40,7 +41,7 @@ public class protectCommandExecutor implements CommandExecutor {
                 }
             } else {
                 p.sendMessage(ChatColor.RED + "You are not allowed to protect your own areas!");
-                p.sendMessage("Sorry for that D:");
+                p.sendMessage("(Sorry for that D:)");
             }
         } else {
             sender.sendMessage(ChatColor.RED + "You are not human-ish enough to use that command (go ingame).");

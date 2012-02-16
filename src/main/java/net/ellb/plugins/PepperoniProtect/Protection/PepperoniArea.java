@@ -7,53 +7,66 @@
  * license <http://www.plugins.ellb.net/license/>.
  *
  */
-
 package net.ellb.plugins.PepperoniProtect.Protection;
 
-import java.io.File;
+import java.util.List;
 import java.util.Random;
-import net.ellb.plugins.pepperoniprotect.Util.PepperoniAreasFile;
+import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
+import net.ellb.plugins.PepperoniProtect.Util.FileManager;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class PepperoniArea {
 
     public Location L1;
     public Location L2;
+    public String UID;
     static String filePath = "plugins/PepperoniProtect/areas.yml";
-    public PepperoniAreasFile aFile = new PepperoniAreasFile(new File(filePath));
+    public FileManager fileManager;
     public Player owner;
+    public PepperoniProtect plugin;
+    public YamlConfiguration config;
 
-    public void init(Location p1, Location p2, Player p) {
+    public PepperoniArea(PepperoniProtect p) {
+        this.plugin = p;
+        config = plugin.getFileManager().getConfig(FileManager.PepperoniFile.AREAS);
+    }
+
+    public void create(Location p1, Location p2, Player p) {
         L1 = p1;
         L2 = p2;
         this.owner = p;
         Random rand = new Random();
-        aFile.set(this, "uid", generateUID(rand));
+        this.UID = this.generateUID(rand);
     }
 
     public String getUID() {
-        return aFile.get("uid").toString();
+        return UID;
     }
 
-    public String getFlag(String flag) {
-        return aFile.get(flag).toString();
+    public String getStringFlag(String flag) {
+        return config.getString(flag);
+    }
+
+    public List<String> getStringListFlag(String flag) {
+        return config.getStringList(flag);
+    }
+
+    public boolean getBooleanFlag(String flag) {
+        return config.getBoolean(flag);
+    }
+
+    public int getIntegerFlag(String flag) {
+        return config.getInt(flag);
     }
 
     public void setUID(String uid) {
-        aFile.set(this, "uid", uid);
+        this.UID = uid;
     }
 
     public void setFlag(String flag, Object value) {
-        aFile.set(this, flag, value);
-    }
-
-    public void saveToFile() {
-        aFile.Save();
-    }
-
-    public void loadFromFile() {
-        aFile.Load();
+        config.set(this.getUID() + "." + flag, value);
     }
 
     public String generateUID(Random rand) {
@@ -65,15 +78,11 @@ public class PepperoniArea {
             text[i] = chars.charAt(rand.nextInt(chars.length()));
         }
         result = new String(text);
-        if (aFile.keyExists(new String(text))) {
+        if (fileManager.getConfig(FileManager.PepperoniFile.AREAS).getKeys(true).contains(new String(text))) {
             return generateUID(new Random());
         } else {
             return new String(text);
         }
-    }
-
-    public void delete() {
-        aFile.getConfig().set(this.getUID(), "");
     }
 
     public boolean contains(Location loc) {
