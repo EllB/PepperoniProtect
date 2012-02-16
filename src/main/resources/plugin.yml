@@ -1,9 +1,7 @@
-# PLUGIN FILE FOR PEPPERONIPROTECT. YOU ARE NOT RECOMENDED TO EDIT THIS FILE, AS IT MAY CAUSE THE PLUGIN TO NOT START, OR WORK INCORRECTLY. 
-# Changing command names will just remove the command, but you can add aliases.
 author: EllB
 database: false
 description: 'A simple way for users and admins to protect areas. '
-main: net.ellb.plugins.pepperoniprotect.PepperoniProtect
+main: net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect
 name: PepperoniProtect
 startup: postworld
 version: '1.0 ALPHA'

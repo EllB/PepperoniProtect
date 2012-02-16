@@ -17,7 +17,6 @@ import net.ellb.plugins.PepperoniProtect.Bukkit.Listeners.GriefListener;
 import net.ellb.plugins.PepperoniProtect.Helpers.PepperoniGuide;
 import net.ellb.plugins.PepperoniProtect.Protection.AreaManager;
 import net.ellb.plugins.PepperoniProtect.Util.FileManager;
-import net.ellb.plugins.pepperoniprotect.API.PepperoniAPI;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PepperoniProtect extends JavaPlugin {
@@ -28,7 +27,6 @@ public class PepperoniProtect extends JavaPlugin {
     public FileManager fileManager = new FileManager();
     public AreaManager areaManager = new AreaManager(this);
     public GriefListener gl = new GriefListener();
-    public PepperoniAPI API = new PepperoniAPI();
 
     @Override
     public void onDisable() {
@@ -37,10 +35,6 @@ public class PepperoniProtect extends JavaPlugin {
 
     public FileManager getFileManager() {
         return fileManager;
-    }
-
-    public PepperoniAPI getAPI() {
-        return API;
     }
 
     public AreaManager getAreaManager() {

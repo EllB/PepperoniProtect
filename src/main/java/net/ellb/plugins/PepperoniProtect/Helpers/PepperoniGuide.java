@@ -9,11 +9,10 @@
  */
 package net.ellb.plugins.PepperoniProtect.Helpers;
 
-import net.ellb.plugins.pepperoniprotect.Enums.MsgType;
 import java.util.HashMap;
 import java.util.Map;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
-import net.ellb.plugins.PepperoniProtect.Protection.PepperoniArea;
+import net.ellb.plugins.PepperoniProtect.Enums.MsgType;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -69,6 +68,7 @@ public class PepperoniGuide implements Listener {
     }
 
     public void finishProtection(Player p) {
+        saveArea(p);
         sendMessage(MsgType.ASSISTANT, "You have now successfully protected an area! For more info on what to do with your area, type " + ChatColor.DARK_GREEN + "/protection" + ChatColor.WHITE + ".", p);
         setProtectionStage(p, 0);
         takeTorches(p);
@@ -96,6 +96,19 @@ public class PepperoniGuide implements Listener {
         }
     }
 
+    public void sendMessage(MsgType mt, String msg, Player pl) {
+        if (mt == MsgType.ASSISTANT) {
+            pl.sendMessage(ChatColor.WHITE + "[" + ChatColor.DARK_PURPLE + "Protecting Assistant" + ChatColor.WHITE + "] " + msg);
+        }
+        if (mt == MsgType.INFO) {
+            pl.sendMessage(ChatColor.WHITE + "[" + ChatColor.BLUE + "Protection Info" + ChatColor.WHITE + "] " + msg);
+        }
+        if (mt == MsgType.WARNING) {
+            pl.sendMessage(ChatColor.WHITE + "[" + ChatColor.RED + "Protection Warning" + ChatColor.WHITE + "] " + msg);
+        }
+
+    }
+
     @EventHandler
     public void blockPlace(BlockPlaceEvent e) {
         if (e.getBlock().getType() == protectionBlock) {
@@ -121,18 +134,5 @@ public class PepperoniGuide implements Listener {
         if (e.getBlock().getType() != protectionBlock) {
             cancelProtection(e.getPlayer());
         }
-    }
-
-    public void sendMessage(MsgType mt, String msg, Player pl) {
-        if (mt == MsgType.ASSISTANT) {
-            pl.sendMessage(ChatColor.WHITE + "[" + ChatColor.DARK_PURPLE + "Protecting Assistant" + ChatColor.WHITE + "] " + msg);
-        }
-        if (mt == MsgType.INFO) {
-            pl.sendMessage(ChatColor.WHITE + "[" + ChatColor.BLUE + "Protection Info" + ChatColor.WHITE + "] " + msg);
-        }
-        if (mt == MsgType.WARNING) {
-            pl.sendMessage(ChatColor.WHITE + "[" + ChatColor.RED + "Protection Warning" + ChatColor.WHITE + "] " + msg);
-        }
-
     }
 }

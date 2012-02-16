@@ -8,7 +8,7 @@
 *
 */
 
-package net.ellb.plugins.pepperoniprotect.API;
+package net.ellb.plugins.PepperoniProtect.API;
 //This is W.I.P. and it's not even sure if we will need this...
 public class PepperoniAPI {
     

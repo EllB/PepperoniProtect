@@ -1,4 +1,4 @@
-package net.ellb.plugins.pepperoniprotect.Enums;
+package net.ellb.plugins.PepperoniProtect.Enums;
 
 
 public enum MsgType {
