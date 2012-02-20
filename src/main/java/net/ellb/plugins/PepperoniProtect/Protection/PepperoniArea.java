@@ -78,7 +78,7 @@ public class PepperoniArea {
             text[i] = chars.charAt(rand.nextInt(chars.length()));
         }
         result = new String(text);
-        return generateUID(new Random());
+        return result;
     }
 
     public boolean contains(Location loc) {
