@@ -9,12 +9,10 @@
  */
 package net.ellb.plugins.PepperoniProtect.Protection;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
-import net.ellb.plugins.PepperoniProtect.Util.FileManager.PepperoniFile;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -57,15 +55,15 @@ public class AreaManager {
 
     public void SaveAreas() {
         try {
-            plugin.getFileManager().getConfig(PepperoniFile.AREAS).save(plugin.getFileManager().AreasFile);
-        } catch (IOException ex) {
+            plugin.getFileManager().getAreasConfig().save(plugin.getFileManager().AreasFile);
+        } catch (Exception ex) {
             plugin.getLogger().log(Level.SEVERE, null, ex);
         }
     }
 
     public void LoadAreas() {
         try {
-            plugin.getFileManager().getConfig(PepperoniFile.AREAS).load(plugin.getFileManager().AreasFile);
+            plugin.getFileManager().getAreasConfig().load(plugin.getFileManager().AreasFile);
         } catch (Exception ex) {
             plugin.getLogger().log(Level.SEVERE, null, ex);
         }

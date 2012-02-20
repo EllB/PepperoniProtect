@@ -23,10 +23,10 @@ public class PepperoniProtect extends JavaPlugin {
 
     static final Logger logger = Logger.getLogger("Minecraft");
     static boolean BETA = true;
-    public PepperoniGuide pepperoniGuide = new PepperoniGuide(this);
-    public FileManager fileManager = new FileManager();
-    public AreaManager areaManager = new AreaManager(this);
-    public GriefListener gl = new GriefListener();
+    public PepperoniGuide pepperoniGuide;
+    public FileManager fileManager;
+    public AreaManager areaManager;
+    public GriefListener gl;
 
     @Override
     public void onDisable() {
@@ -49,16 +49,24 @@ public class PepperoniProtect extends JavaPlugin {
         flagCommandExecutor flagC = new flagCommandExecutor();
         protectCommandExecutor protectC = new protectCommandExecutor(this);
         this.getCommand("protect").setExecutor(protectC);
+        this.getCommand("flag").setExecutor(flagC);
     }
 
     @Override
     public void onEnable() {
+        fileManager = new FileManager(this);
+        pepperoniGuide = new PepperoniGuide(this);
+        areaManager = new AreaManager(this);
+        gl = new GriefListener();
         if (BETA == false) {
             logger.log(Level.INFO, "Feel safe, cause the server is protected by ", this);
         } else {
             logger.log(Level.INFO, "Thanks for testing out ", this + ". Please report any bugs or requests to EllB. ");
         }
         this.getServer().getPluginManager().registerEvents(pepperoniGuide, this);
+        this.getServer().getPluginManager().registerEvents(gl, this);
         registerCommands();
+        fileManager.RealodAreasFile();
+        fileManager.ReloadConfigFile();
     }
 }

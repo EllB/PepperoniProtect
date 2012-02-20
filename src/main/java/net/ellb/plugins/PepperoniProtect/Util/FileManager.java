@@ -8,57 +8,67 @@
  *
  */
 package net.ellb.plugins.PepperoniProtect.Util;
-//The class that will replace PepperoniAreasFile and PepperoniConfiguration - cool, isn't it ;-)
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class FileManager {
-    //May move this to the Enums package as well, but who cares...
 
-    public enum PepperoniFile {
-
-        CONFIG, AREAS, BOTH
-    };
     public YamlConfiguration Areas;
     public YamlConfiguration Config;
-    public File AreasFile = new File("plugins/PepperoniProtect/areas.yml");
-    public File ConfigFile = new File("plugins/PepperoniProtect/config.yml");
+    public File AreasFile;
+    public File ConfigFile;
+    public PepperoniProtect plugin;
 
-    public void Load(PepperoniFile pf) {
-        if (pf == PepperoniFile.AREAS) {
-            Areas = YamlConfiguration.loadConfiguration(AreasFile);
-        } else if (pf == PepperoniFile.CONFIG) {
-            Config = YamlConfiguration.loadConfiguration(ConfigFile);
-        } else {
-            Config = YamlConfiguration.loadConfiguration(ConfigFile);
-            Areas = YamlConfiguration.loadConfiguration(AreasFile);
-        }
+    public FileManager(PepperoniProtect p) {
+        this.plugin = p;
+
     }
 
-    public void Save(PepperoniFile pf) {
+    public YamlConfiguration getAreasConfig() {
+        return Areas;
+    }
+
+    public YamlConfiguration getConfiguration() {
+        return Config;
+    }
+
+    public void ReloadConfigFile() {
+        if (ConfigFile == null) {
+            ConfigFile = new File("plugins/PepperoniProtect/config.yml");
+        }
+        Config = YamlConfiguration.loadConfiguration(ConfigFile);
+        InputStream defConfigStream = plugin.getResource("config.yml");
+        if (defConfigStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            Config.setDefaults(defConfig);
+        }
         try {
-            if (pf == PepperoniFile.AREAS) {
-                Areas.save(AreasFile);
-            } else if (pf == PepperoniFile.CONFIG) {
-                Config.save(ConfigFile);
-            } else {
-                Config.save(ConfigFile);
-                Areas.save(AreasFile);
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            Config.save(ConfigFile);
+        } catch (Exception ex) {
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public YamlConfiguration getConfig(PepperoniFile pf) {
-        if (pf == PepperoniFile.AREAS) {
-            return Areas;
-        } else if (pf == PepperoniFile.CONFIG) {
-            return Config;
-        } else {
-            return null;
+    public void RealodAreasFile() {
+        if (AreasFile == null) {
+            AreasFile = new File("plugins/PepperoniProtect/areas.yml");
+        }
+        Areas = YamlConfiguration.loadConfiguration(AreasFile);
+        InputStream defConfigStream = plugin.getResource("areas.yml");
+        if (defConfigStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            Areas.setDefaults(defConfig);
+        }
+        try {
+            Areas.save(AreasFile);
+        } catch (Exception ex) {
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

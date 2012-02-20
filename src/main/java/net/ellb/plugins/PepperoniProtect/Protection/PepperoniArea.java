@@ -30,7 +30,7 @@ public class PepperoniArea {
 
     public PepperoniArea(PepperoniProtect p) {
         this.plugin = p;
-        config = plugin.getFileManager().getConfig(FileManager.PepperoniFile.AREAS);
+        config = plugin.getFileManager().getAreasConfig();
     }
 
     public void create(Location p1, Location p2, Player p) {
@@ -78,11 +78,7 @@ public class PepperoniArea {
             text[i] = chars.charAt(rand.nextInt(chars.length()));
         }
         result = new String(text);
-        if (fileManager.getConfig(FileManager.PepperoniFile.AREAS).getKeys(true).contains(new String(text))) {
-            return generateUID(new Random());
-        } else {
-            return new String(text);
-        }
+        return generateUID(new Random());
     }
 
     public boolean contains(Location loc) {
