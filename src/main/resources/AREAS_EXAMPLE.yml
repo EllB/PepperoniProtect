@@ -1,0 +1,66 @@
+# The storage file for all areas. Everything in this file should be editable from ingame commands. 
+gh3r:
+  location:
+    1: 
+      X: 32
+      Y: 64
+    2:
+      X: 54
+      Y: 23
+    world: world
+  pvp: false
+  owner: EllB
+  members:
+  - rasmus09
+  - xx15
+  - Siggan
+  enter: 
+    outsider: true
+  milk_cow:
+    member: true
+    outsider: false
+  leave:
+    permission: ''
+    otherwise: true
+  build: 
+    member: true
+    outsider: false
+  market:
+    forsale: false
+    cost: 0.00
+  mobs:
+    spawn: false
+    burn: true
+  liquids:
+    lava:
+      place: 
+        member: true
+        outsider: false
+      take:
+        member: true
+        outsider: false
+      spread: false
+    water:
+      spread: true
+      place:
+        member: true
+        outsider: false
+      take:
+        member: true
+        outsider: false
+  potions:
+    hit: false
+    throw: true
+  bowarrow:
+    shoot: true
+    hit: true
+  enderman_grief: false
+  piston_move: true
+  fire:
+    spread: false
+    burnblock: false
+    ignite:
+      member: false
+      outsider: false
+  pvp: false
+  boom: false
