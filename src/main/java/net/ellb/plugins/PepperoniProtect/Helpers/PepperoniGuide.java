@@ -1,10 +1,10 @@
 /*
  * PepperoniProtect
  * Copyright (C) 2012 EllB <http://www.ellb.net/>
- * 
+ *
  * This program is a part of The SpicyPack and is
  * therefore licensed under the SpicyCode custom
- * license <http://www.plugins.ellb.net/license/>.
+ * license <http://plugins.ellb.net/license/>.
  *
  */
 package net.ellb.plugins.PepperoniProtect.Helpers;
@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import net.ellb.plugins.PepperoniProtect.Enums.MsgType;
+import net.ellb.plugins.PepperoniProtect.Protection.PepperoniArea;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -75,7 +76,16 @@ public class PepperoniGuide implements Listener {
     }
 
     public void saveArea(Player p) {
-        plugin.getAreaManager().createArea(torch1.get(p), torch2.get(p), p);
+        PepperoniArea a = plugin.getAreaManager().createArea(torch1.get(p), torch2.get(p), p);
+        //UGLY
+        a.setFlag("location.world", torch1.get(p).getWorld().getName());
+        a.setFlag("location.1.X", torch1.get(p).getX());
+        a.setFlag("location.1.Y", torch1.get(p).getY());
+        a.setFlag("location.2.X", torch2.get(p).getX());
+        a.setFlag("location.2.Y", torch2.get(p).getY());
+        a.setFlag("owner", p.getName());
+        a.setFlag("build.member", true);
+        a.setFlag("build.outsider", false);
         plugin.getAreaManager().SaveAreas();
     }
 
@@ -131,8 +141,10 @@ public class PepperoniGuide implements Listener {
 
     @EventHandler
     public void blockBreak(BlockBreakEvent e) {
-        if (e.getBlock().getType() != protectionBlock) {
-            cancelProtection(e.getPlayer());
+        if (protectionStage.get(e.getPlayer()) > 0) {
+            if (e.getBlock().getType() != protectionBlock) {
+                cancelProtection(e.getPlayer());
+            }
         }
     }
 }

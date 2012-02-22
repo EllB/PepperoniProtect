@@ -4,20 +4,22 @@
  * 
  * This program is a part of The SpicyPack and is
  * therefore licensed under the SpicyCode custom
- * license <http://www.plugins.ellb.net/license/>.
+ * license <http://plugins.ellb.net/license/>.
  *
  */
 package net.ellb.plugins.PepperoniProtect.Protection;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import net.ellb.plugins.PepperoniProtect.Util.FileManager;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 
-public class PepperoniArea {
+public class PepperoniArea implements ConfigurationSerializable {
 
     public Location L1;
     public Location L2;
@@ -46,19 +48,19 @@ public class PepperoniArea {
     }
 
     public String getStringFlag(String flag) {
-        return config.getString(flag);
+        return config.getString(this.getUID() + "." + flag);
     }
 
     public List<String> getStringListFlag(String flag) {
-        return config.getStringList(flag);
+        return config.getStringList(this.getUID() + "." + flag);
     }
 
     public boolean getBooleanFlag(String flag) {
-        return config.getBoolean(flag);
+        return config.getBoolean(this.getUID() + "." + flag);
     }
 
     public int getIntegerFlag(String flag) {
-        return config.getInt(flag);
+        return config.getInt(this.getUID() + "." + flag);
     }
 
     public void setUID(String uid) {
@@ -87,5 +89,9 @@ public class PepperoniArea {
         } else {
             return false;
         }
+    }
+
+    public Map<String, Object> serialize() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

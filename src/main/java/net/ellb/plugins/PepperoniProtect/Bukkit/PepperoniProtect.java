@@ -4,7 +4,7 @@
  * 
  * This program is a part of The SpicyPack and is
  * therefore licensed under the SpicyCode custom
- * license <http://www.plugins.ellb.net/license/>.
+ * license <http://plugins.ellb.net/license/>.
  *
  */
 package net.ellb.plugins.PepperoniProtect.Bukkit;
@@ -15,17 +15,16 @@ import net.ellb.plugins.PepperoniProtect.Bukkit.CommandExecutors.flagCommandExec
 import net.ellb.plugins.PepperoniProtect.Bukkit.CommandExecutors.protectCommandExecutor;
 import net.ellb.plugins.PepperoniProtect.Bukkit.Listeners.GriefListener;
 import net.ellb.plugins.PepperoniProtect.Helpers.PepperoniGuide;
-import net.ellb.plugins.PepperoniProtect.Protection.AreaManager;
+import net.ellb.plugins.PepperoniProtect.Protection.GlobalAreaManager;
 import net.ellb.plugins.PepperoniProtect.Util.FileManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PepperoniProtect extends JavaPlugin {
-
     static final Logger logger = Logger.getLogger("Minecraft");
     static boolean BETA = true;
     public PepperoniGuide pepperoniGuide;
     public FileManager fileManager;
-    public AreaManager areaManager;
+    public GlobalAreaManager areaManager;
     public GriefListener gl;
 
     @Override
@@ -37,7 +36,7 @@ public class PepperoniProtect extends JavaPlugin {
         return fileManager;
     }
 
-    public AreaManager getAreaManager() {
+    public GlobalAreaManager getAreaManager() {
         return areaManager;
     }
 
@@ -56,8 +55,8 @@ public class PepperoniProtect extends JavaPlugin {
     public void onEnable() {
         fileManager = new FileManager(this);
         pepperoniGuide = new PepperoniGuide(this);
-        areaManager = new AreaManager(this);
-        gl = new GriefListener();
+        areaManager = new GlobalAreaManager(this);
+        gl = new GriefListener(this);
         if (BETA == false) {
             logger.log(Level.INFO, "Feel safe, cause the server is protected by ", this);
         } else {

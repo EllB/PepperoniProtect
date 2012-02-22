@@ -4,13 +4,12 @@
  * 
  * This program is a part of The SpicyPack and is
  * therefore licensed under the SpicyCode custom
- * license <http://www.plugins.ellb.net/license/>.
+ * license <http://plugins.ellb.net/license/>.
  *
  */
 package net.ellb.plugins.PepperoniProtect.Util;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;

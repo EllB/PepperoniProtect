@@ -4,7 +4,7 @@
 * 
 * This program is a part of The SpicyPack and is
 * therefore licensed under the SpicyCode custom
-* license <http://www.plugins.ellb.net/license/>.
+* license <http://plugins.ellb.net/license/>.
 *
 */
 
