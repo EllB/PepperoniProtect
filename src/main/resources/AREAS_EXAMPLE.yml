@@ -31,23 +31,6 @@ gh3r:
   mobs:
     spawn: false
     burn: true
-  liquids:
-    lava:
-      place: 
-        member: true
-        outsider: false
-      take:
-        member: true
-        outsider: false
-      spread: false
-    water:
-      spread: true
-      place:
-        member: true
-        outsider: false
-      take:
-        member: true
-        outsider: false
   potions:
     hit: false
     throw: true

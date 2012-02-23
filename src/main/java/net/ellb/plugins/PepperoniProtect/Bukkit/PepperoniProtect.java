@@ -20,12 +20,13 @@ import net.ellb.plugins.PepperoniProtect.Util.FileManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PepperoniProtect extends JavaPlugin {
+
     static final Logger logger = Logger.getLogger("Minecraft");
     static boolean BETA = true;
     public PepperoniGuide pepperoniGuide;
     public FileManager fileManager;
     public GlobalAreaManager areaManager;
-    public GriefListener gl;
+    public GriefListener ppgl;
 
     @Override
     public void onDisable() {
@@ -45,7 +46,7 @@ public class PepperoniProtect extends JavaPlugin {
     }
 
     public void registerCommands() {
-        flagCommandExecutor flagC = new flagCommandExecutor();
+        flagCommandExecutor flagC = new flagCommandExecutor(this);
         protectCommandExecutor protectC = new protectCommandExecutor(this);
         this.getCommand("protect").setExecutor(protectC);
         this.getCommand("flag").setExecutor(flagC);
@@ -56,14 +57,13 @@ public class PepperoniProtect extends JavaPlugin {
         fileManager = new FileManager(this);
         pepperoniGuide = new PepperoniGuide(this);
         areaManager = new GlobalAreaManager(this);
-        gl = new GriefListener(this);
+        ppgl = new GriefListener(this);
         if (BETA == false) {
             logger.log(Level.INFO, "Feel safe, cause the server is protected by ", this);
         } else {
-            logger.log(Level.INFO, "Thanks for testing out ", this + ". Please report any bugs or requests to EllB. ");
+            logger.log(Level.INFO, "Thanks for testing out!");
         }
         this.getServer().getPluginManager().registerEvents(pepperoniGuide, this);
-        this.getServer().getPluginManager().registerEvents(gl, this);
         registerCommands();
         fileManager.RealodAreasFile();
         fileManager.ReloadConfigFile();

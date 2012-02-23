@@ -35,12 +35,11 @@ public class PepperoniArea implements ConfigurationSerializable {
         config = plugin.getFileManager().getAreasConfig();
     }
 
-    public void create(Location p1, Location p2, Player p) {
+    public void create(Location p1, Location p2, Player p, String uid) {
         L1 = p1;
         L2 = p2;
         this.owner = p;
-        Random rand = new Random();
-        this.UID = this.generateUID(rand);
+        this.UID = uid;
     }
 
     public String getUID() {
