@@ -10,16 +10,15 @@
 package net.ellb.plugins.PepperoniProtect.Protection;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
+import net.ellb.plugins.PepperoniProtect.Util.PepperoniAreasFile;
 import net.ellb.plugins.PepperoniProtect.Util.FileManager;
+import net.ellb.plugins.PepperoniProtect.Util.PepperoniAreaFlagInfo;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 
-public class PepperoniArea implements ConfigurationSerializable {
+public class PepperoniArea {
 
     public Location L1;
     public Location L2;
@@ -28,17 +27,25 @@ public class PepperoniArea implements ConfigurationSerializable {
     public FileManager fileManager;
     public Player owner;
     public PepperoniProtect plugin;
-    public YamlConfiguration config;
+    public PepperoniAreasFile config;
 
     public PepperoniArea(PepperoniProtect p) {
         this.plugin = p;
-        config = plugin.getFileManager().getAreasConfig();
+        config = plugin.getFileManager().getAreasFile();
     }
 
-    public void create(Location p1, Location p2, Player p, String uid) {
+    public void create(Location p1, Location p2, Player owner, String uid) {
         L1 = p1;
         L2 = p2;
-        this.owner = p;
+        for (PepperoniAreaFlagInfo inf : plugin.getFileManager().getConfiguration().getFlagInfos()) {
+            String def = inf.getDefault();
+            def.replace("loc1Y", Double.toString(p1.getY()));
+            def.replace("loc1X", Double.toString(p1.getX()));
+            def.replace("loc2Y", Double.toString(p2.getY()));
+            def.replace("loc2X", Double.toString(p2.getX()));
+            def.replace("owner", owner.getName());
+            this.setFlag(inf.toString(), def);
+        }
         this.UID = uid;
     }
 
@@ -47,19 +54,19 @@ public class PepperoniArea implements ConfigurationSerializable {
     }
 
     public String getStringFlag(String flag) {
-        return config.getString(this.getUID() + "." + flag);
+        return config.getStringFlag(this, flag);
     }
 
     public List<String> getStringListFlag(String flag) {
-        return config.getStringList(this.getUID() + "." + flag);
+        return config.getStringListFlag(this, flag);
     }
 
     public boolean getBooleanFlag(String flag) {
-        return config.getBoolean(this.getUID() + "." + flag);
+        return config.getBooleanFlag(this, flag);
     }
 
     public int getIntegerFlag(String flag) {
-        return config.getInt(this.getUID() + "." + flag);
+        return config.getIntFlag(this, flag);
     }
 
     public void setUID(String uid) {
@@ -83,14 +90,11 @@ public class PepperoniArea implements ConfigurationSerializable {
     }
 
     public boolean contains(Location loc) {
-        if (loc.getY() <= L1.getY() && loc.getY() >= L1.getX() && loc.getX() <= L2.getY() && loc.getY() == L2.getX()) {
-            return true;
-        } else {
-            return false;
+        if (loc.getWorld() == this.L1.getWorld()) {
+            if (loc.getY() <= L1.getY() && loc.getY() >= L1.getX() && loc.getX() <= L2.getY() && loc.getY() == L2.getX()) {
+                return true;
+            }
         }
-    }
-
-    public Map<String, Object> serialize() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 }

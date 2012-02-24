@@ -15,7 +15,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class GlobalAreaManager {
@@ -65,11 +64,6 @@ public class GlobalAreaManager {
         return areas;
     }
 
-    public void saveArea(PepperoniArea a) {
-        YamlConfiguration conf = plugin.getFileManager().getAreasConfig();
-
-    }
-
     public PepperoniArea createArea(Location L1, Location L2, Player owner) {
         PepperoniArea area = new PepperoniArea(plugin);
         String uid = generateUID();
@@ -87,8 +81,8 @@ public class GlobalAreaManager {
             text[i] = chars.charAt(rand.nextInt(chars.length()));
         }
         result = new String(text);
-        if (plugin.getFileManager().getAreasConfig().getKeys(true) != null) {
-            if (plugin.getFileManager().getAreasConfig().getKeys(true).contains(result)) {
+        if (plugin.getFileManager().getAreasFile().getKeys(true) != null) {
+            if (plugin.getFileManager().getAreasFile().getKeys(true).contains(result)) {
                 return generateUID();
             }
         }
@@ -97,7 +91,7 @@ public class GlobalAreaManager {
 
     public void SaveAreas() {
         try {
-            plugin.getFileManager().getAreasConfig().save(plugin.getFileManager().AreasFile);
+            plugin.getFileManager().getAreasFile().save();
         } catch (Exception ex) {
             plugin.getLogger().log(Level.SEVERE, null, ex);
         }
@@ -105,7 +99,7 @@ public class GlobalAreaManager {
 
     public void LoadAreas() {
         try {
-            plugin.getFileManager().getAreasConfig().load(plugin.getFileManager().AreasFile);
+            plugin.getFileManager().getAreasFile().load();
         } catch (Exception ex) {
             plugin.getLogger().log(Level.SEVERE, null, ex);
         }

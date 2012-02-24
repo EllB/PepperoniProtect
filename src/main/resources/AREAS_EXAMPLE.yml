@@ -16,34 +16,20 @@ gh3r:
   - Siggan
   enter: 
     outsider: true
-  milk_cow:
-    member: true
-    outsider: false
-  leave:
-    permission: ''
-    otherwise: true
   build: 
     member: true
     outsider: false
-  market:
-    forsale: false
-    cost: 0.00
   mobs:
     spawn: false
     burn: true
-  potions:
-    hit: false
-    throw: true
-  bowarrow:
+  projectiles:
     shoot: true
     hit: true
   enderman_grief: false
   piston_move: true
   fire:
     spread: false
-    burnblock: false
     ignite:
       member: false
       outsider: false
-  pvp: false
   boom: false

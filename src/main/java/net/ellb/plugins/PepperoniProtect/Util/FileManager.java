@@ -10,47 +10,46 @@
 package net.ellb.plugins.PepperoniProtect.Util;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class FileManager {
 
-    public YamlConfiguration Areas;
-    public YamlConfiguration Config;
+    public PepperoniAreasFile Areas;
+    public PepperoniConfigurationFile Config;
     public File AreasFile;
     public File ConfigFile;
     public PepperoniProtect plugin;
+    static final Logger logger = Logger.getLogger("Minecraft");
 
     public FileManager(PepperoniProtect p) {
         this.plugin = p;
-
+        Areas = new PepperoniAreasFile();
+        Config = new PepperoniConfigurationFile(plugin);
     }
 
-    public YamlConfiguration getAreasConfig() {
+    public PepperoniAreasFile getAreasFile() {
         return Areas;
     }
 
-    public YamlConfiguration getConfiguration() {
-        return Config;
+    public PepperoniConfigurationFile getConfiguration() {
+        if (!ConfigFile.exists()) {
+            return Config;
+        } else {
+            Config = Config.getDefault();
+            return Config;
+        }
     }
 
     public void ReloadConfigFile() {
         if (ConfigFile == null) {
             ConfigFile = new File("plugins/PepperoniProtect/config.yml");
         }
-        Config = YamlConfiguration.loadConfiguration(ConfigFile);
-        InputStream defConfigStream = plugin.getResource("config.yml");
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            Config.setDefaults(defConfig);
-        }
         try {
-            Config.save(ConfigFile);
+            Config.load(ConfigFile);
         } catch (Exception ex) {
-            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -58,16 +57,6 @@ public class FileManager {
         if (AreasFile == null) {
             AreasFile = new File("plugins/PepperoniProtect/areas.yml");
         }
-        Areas = YamlConfiguration.loadConfiguration(AreasFile);
-        InputStream defConfigStream = plugin.getResource("areas.yml");
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            Areas.setDefaults(defConfig);
-        }
-        try {
-            Areas.save(AreasFile);
-        } catch (Exception ex) {
-            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Areas.load();
     }
 }

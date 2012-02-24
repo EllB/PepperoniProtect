@@ -77,15 +77,6 @@ public class PepperoniGuide implements Listener {
 
     public void saveArea(Player p) {
         PepperoniArea a = plugin.getAreaManager().createArea(torch1.get(p), torch2.get(p), p);
-        //UGLY
-        a.setFlag("location.world", torch1.get(p).getWorld().getName());
-        a.setFlag("location.1.X", torch1.get(p).getX());
-        a.setFlag("location.1.Y", torch1.get(p).getY());
-        a.setFlag("location.2.X", torch2.get(p).getX());
-        a.setFlag("location.2.Y", torch2.get(p).getY());
-        a.setFlag("owner", p.getName());
-        a.setFlag("build.member", true);
-        a.setFlag("build.outsider", false);
         plugin.getAreaManager().SaveAreas();
     }
 

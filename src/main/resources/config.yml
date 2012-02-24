@@ -10,11 +10,12 @@ chat:
   CommandColor: '2'
 
 
-##!!NOT IMPLEMENTED#
+
+
+##!!NOT IMPLEMENTED!!##
 economy:
   # Whether or not the plugin should use economy.
   enabled: false
   # The cost per block in an area.
   cost: 
     ## More economy settings coming when implementing economy. 
-#!!##

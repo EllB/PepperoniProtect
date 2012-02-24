@@ -21,6 +21,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPistonEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EndermanPickupEvent;
@@ -43,7 +45,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void PISTON_MOVE(BlockPistonEvent e) {
+    public void PISTON_EXTEND(final BlockPistonExtendEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -55,7 +57,18 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void BLOCK_BREAK(BlockBreakEvent e) {
+    public void PISTON_RETRACT(final BlockPistonRetractEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+
+        if (!areaManager.should(e.getBlock().getLocation(), "piston_move")) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void BLOCK_BREAK(final BlockBreakEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -66,7 +79,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void BLOCK_IGNITE(BlockIgniteEvent e) {
+    public void BLOCK_IGNITE(final BlockIgniteEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -77,7 +90,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void BLOCK_PLACE(BlockPlaceEvent e) {
+    public void BLOCK_PLACE(final BlockPlaceEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -88,7 +101,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void BLOCK_BURN(BlockBurnEvent e) {
+    public void BLOCK_BURN(final BlockBurnEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -98,7 +111,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void BUCKET_EMPTY(PlayerBucketEmptyEvent e) {
+    public void BUCKET_EMPTY(final PlayerBucketEmptyEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -118,7 +131,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void BUCKET_FILL(PlayerBucketFillEvent e) {
+    public void BUCKET_FILL(final PlayerBucketFillEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -138,7 +151,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void PvP(EntityDamageEvent e) {
+    public void PvP(final EntityDamageEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -156,7 +169,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void BOOM(EntityExplodeEvent e) {
+    public void BOOM(final EntityExplodeEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -166,7 +179,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void MOB_SPAWN(CreatureSpawnEvent e) {
+    public void MOB_SPAWN(final CreatureSpawnEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -176,7 +189,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void ENDERMAN_PICK(EndermanPickupEvent e) {
+    public void ENDERMAN_PICK(final EndermanPickupEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -186,7 +199,7 @@ public class GriefListener implements Listener {
     }
 
     @EventHandler
-    public void ENDERMAN_PLACE(EndermanPlaceEvent e) {
+    public void ENDERMAN_PLACE(final EndermanPlaceEvent e) {
         if (e.isCancelled()) {
             return;
         }
