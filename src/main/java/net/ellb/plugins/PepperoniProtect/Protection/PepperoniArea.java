@@ -19,7 +19,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class PepperoniArea {
-
     public Location L1;
     public Location L2;
     public String UID;
@@ -31,7 +30,7 @@ public class PepperoniArea {
 
     public PepperoniArea(PepperoniProtect p) {
         this.plugin = p;
-        config = plugin.getFileManager().getAreasFile();
+        this.config = plugin.getFileManager().getAreasFile();
     }
 
     public void create(Location p1, Location p2, Player owner, String uid) {

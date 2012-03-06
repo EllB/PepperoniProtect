@@ -1,7 +1,5 @@
 # The main configuration file for the PepperoniProtect plugin. 
 
-# The rules for the protection assistant to follow when talking to you/your players.
-
 chat:
   # Color for the [Protection Assistant] label when protecting an area. Default 'd'(LIGHT_PURPLE).
   ProtectionAssistantNameColor: 'd'
@@ -12,10 +10,68 @@ chat:
 
 
 
-##!!NOT IMPLEMENTED!!##
-economy:
-  # Whether or not the plugin should use economy.
-  enabled: false
-  # The cost per block in an area.
-  cost: 
-    ## More economy settings coming when implementing economy. 
+flags:
+  position1.y:
+    description: 'Pos1Y'
+    default: 'loc1Y'
+    displayname: 'pos1y'
+    
+  position1.x:
+    description: 'Pos1X'
+    default: 'loc1X'
+    displayname: 'pos1x'
+    
+  position2.y:
+    description: 'Pos2Y'
+    default: 'loc2X'
+    displayname: 'pos2y'
+    
+  position2.x:
+    description: 'Pos2X'
+    default: 'loc2x'
+    displayname: 'pos2x'
+    
+  build.member:
+    description: 'Determines whether or not the members of the area are allowed to build. '
+    default: true
+    displayname: 'member/build'
+    
+  build.outsider:
+    description: 'Determines whether or not outsiders can build/destroy blocks in the area. '
+    default: false
+    displayname: 'outsider/build'
+    
+  piston_move:
+    description: 'Determines if pistons in the area can extend/retract. '
+    default: true
+    displayname: 'pistons'
+    
+  fire.ignite.member:
+    description: 'Determines if members of the area can set blocks on fire there. '
+    default: true
+    displayname: 'member/burnstuff'
+    
+  fire.ignite.outsider:
+    description: 'Determines if outsiders can set blocks on fire in the area. '
+    default: false
+    displayname: 'outsider/burnstuff'
+    
+  fire.burnblocks:
+    description: 'Determines if fire in the area destroys the blocks. '
+    default: true
+    displayname: 'blocks_burn'
+    
+  boom:
+    description: 'Determines if TnT in the area can explode. '
+    default: true
+    displayname: 'explosion'
+    
+  mobs.spawn:
+    description: 'Determines if mobs in the area can spawn. '
+    default: true
+    displayname: 'mobs'
+    
+  enderman_grief:
+    description: 'Determines if endermans in the area can pick up and place blocks. '
+    default: false
+    displayname: 'endermen'

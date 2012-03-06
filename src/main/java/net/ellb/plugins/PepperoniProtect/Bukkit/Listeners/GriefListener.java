@@ -20,7 +20,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.block.BlockPistonEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -84,7 +83,7 @@ public class GriefListener implements Listener {
             return;
         }
         if (!areaManager.can(e.getPlayer(), e.getBlock().getLocation(), "fire.ignite")) {
-            e.getPlayer().sendMessage(ChatColor.RED + "No, no, don't burn things. Bad " + e.getPlayer().getDisplayName() + ".");
+            e.getPlayer().sendMessage(ChatColor.RED + "No, no, don't burn things. Bad " + e.getPlayer().getName() + ".");
             e.setCancelled(true);
         }
     }

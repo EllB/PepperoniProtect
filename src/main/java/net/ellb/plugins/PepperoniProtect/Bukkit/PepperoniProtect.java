@@ -30,7 +30,7 @@ public class PepperoniProtect extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        System.out.println("[PepperoniProtect] " + this + " disabled sir!");
+        System.out.println(this + " disabled sir!");
     }
 
     public FileManager getFileManager() {
@@ -61,11 +61,9 @@ public class PepperoniProtect extends JavaPlugin {
         if (BETA == false) {
             logger.log(Level.INFO, "Feel safe, cause the server is protected by ", this);
         } else {
-            logger.log(Level.INFO, "Thanks for testing out!");
+            logger.log(Level.INFO, this + "is now enabled. Thanks for testing out! ");
         }
         this.getServer().getPluginManager().registerEvents(pepperoniGuide, this);
         registerCommands();
-        fileManager.RealodAreasFile();
-        fileManager.ReloadConfigFile();
     }
 }
