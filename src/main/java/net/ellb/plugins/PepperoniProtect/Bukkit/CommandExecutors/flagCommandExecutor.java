@@ -11,6 +11,7 @@ package net.ellb.plugins.PepperoniProtect.Bukkit.CommandExecutors;
 
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import net.ellb.plugins.PepperoniProtect.Protection.GlobalAreaManager;
+import net.ellb.plugins.PepperoniProtect.Util.PepperoniAreaFlagInfo;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,7 +33,7 @@ public class flagCommandExecutor implements CommandExecutor {
         if (sender instanceof Player) {
             player = (Player) sender;
             if (args.length < 1) {
-                sendFlags(player);
+                sendFlagInfo(player);
             }
             if (args.length > 2) {
                 player.sendMessage(ChatColor.RED + "Too many arguments! Correct usage: /" + label + " [flag] [value]");
@@ -48,7 +49,11 @@ public class flagCommandExecutor implements CommandExecutor {
         return true;
     }
 
-    public void sendFlags(Player p) {
-        throw new UnsupportedOperationException("Feature not added yet. ");
+    public void sendFlagInfo(Player p) {
+        p.sendMessage("To set a flag, type " + ChatColor.DARK_GREEN + "/flag [FLAGNAME] [VALUE]" + ChatColor.WHITE + ". Where " + ChatColor.DARK_GREEN + "[FLAGNAME]" + ChatColor.WHITE + " is the name of the flag you want to set, and " + ChatColor.DARK_GREEN + "[VALUE]" + ChatColor.WHITE + "is the value you want to set it to. ");
+        p.sendMessage("-- Aviable Flags --");
+        for (PepperoniAreaFlagInfo flag : plugin.getFileManager().getConfiguration().getFlagInfos()) {
+            p.sendMessage(ChatColor.DARK_GREEN + flag.getDisplayName() + ChatColor.WHITE + " " + flag.getDescription());
+        }
     }
 }

@@ -10,27 +10,24 @@
 package net.ellb.plugins.PepperoniProtect.Util;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class FileManager {
 
     public PepperoniAreasFile Areas;
     public PepperoniConfigurationFile Config;
     public File AreasFile;
-    public File ConfigFile = new File("");
+    public File ConfigFile = new File("plugins/PepperoniProtect/config.yml");
     public PepperoniProtect plugin;
     static final Logger logger = Logger.getLogger("Minecraft");
 
     public FileManager(PepperoniProtect p) {
         this.plugin = p;
-        this.ReloadConfigFile();
         Areas = new PepperoniAreasFile();
         Config = new PepperoniConfigurationFile(plugin);
+        this.ReloadConfigFile();
     }
 
     public PepperoniAreasFile getAreasFile() {
@@ -47,21 +44,15 @@ public class FileManager {
     }
 
     public void ReloadConfigFile() {
+        logger.log(Level.INFO, "ReloadConfigFile method started...");
         if (!ConfigFile.exists()) {
-            ConfigFile = new File("plugins/PepperoniProtect/config.yml");
+            //TEMP:
+            logger.log(Level.INFO, "Configuration not found. ");
+            plugin.saveDefaultConfig();
             try {
-                try {
-                    InputStream defConfigStream = plugin.getResource("customConfig.yml");
-                    if (defConfigStream != null) {
-                        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-                        Config.setDefaults(defConfig);
-                    }
-                } catch (Exception ex) {
-                    logger.log(Level.SEVERE, "Error when loading default configuration. ", ex);
-                }
-                Config.save(ConfigFile);
+                Config.load(ConfigFile);
             } catch (Exception ex) {
-                logger.log(Level.SEVERE, "Error when creting default configuration file. ", ex);
+                logger.log(Level.SEVERE, null, ex);
             }
         } else {
             try {
@@ -70,13 +61,25 @@ public class FileManager {
                 logger.log(Level.SEVERE, "Error when loading configuration file. ", ex);
             }
         }
+        Config.loadFlagInfos();
     }
 
     public void RealodAreasFile() {
-        if (AreasFile == null) {
-            AreasFile = new File("plugins/PepperoniProtect/areas.yml");
-            Areas.save();
+        if (!ConfigFile.exists()) {
+            Areas = new PepperoniAreasFile();
+            try {
+                Areas.save(ConfigFile);
+                Areas.load(ConfigFile);
+            } catch (Exception ex) {
+                logger.log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                Areas.load(ConfigFile);
+            } catch (Exception ex) {
+                logger.log(Level.SEVERE, "Error when loading areas file. ", ex);
+            }
         }
-        Areas.load();
+        
     }
 }

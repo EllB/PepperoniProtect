@@ -23,10 +23,10 @@ public class GlobalAreaManager {
         this.plugin = p;
     }
     public PepperoniProtect plugin;
-    public Set<PepperoniArea> areas = new HashSet<PepperoniArea>();
+    public Set<ProtectedArea> areas = new HashSet<ProtectedArea>();
 
-    public PepperoniArea getAreaByUID(String s) {
-        for (PepperoniArea a : this.getAreas()) {
+    public ProtectedArea getAreaByUID(String s) {
+        for (ProtectedArea a : this.getAreas()) {
             if (s.equals(a.getUID())) {
                 return a;
             }
@@ -35,7 +35,7 @@ public class GlobalAreaManager {
     }
 
     public boolean can(Player p, Location loc, String action) {
-        PepperoniArea area = this.getArea(loc);
+        ProtectedArea area = this.getArea(loc);
         if (!area.getStringFlag("owner").equals(p.getName())) {
             if (!area.getStringListFlag("members").contains(p.getName()) && !area.getBooleanFlag(action + ".members")) {
                 if (!area.getBooleanFlag(action + ".outsider")) {
@@ -50,9 +50,9 @@ public class GlobalAreaManager {
         return getArea(loc).getBooleanFlag(action);
     }
 
-    public PepperoniArea getArea(Location loc) {
+    public ProtectedArea getArea(Location loc) {
         //TODO: Make this more fancy with parent-and-child areas:
-        for (PepperoniArea p : this.getAreas()) {
+        for (ProtectedArea p : this.getAreas()) {
             if (p.contains(loc)) {
                 return p;
             }
@@ -60,12 +60,12 @@ public class GlobalAreaManager {
         return null;
     }
 
-    public Set<PepperoniArea> getAreas() {
+    public Set<ProtectedArea> getAreas() {
         return areas;
     }
 
-    public PepperoniArea createArea(Location L1, Location L2, Player owner) {
-        PepperoniArea area = new PepperoniArea(plugin);
+    public ProtectedArea createArea(Location L1, Location L2, Player owner) {
+        ProtectedArea area = new ProtectedArea(plugin);
         String uid = generateUID();
         area.create(L1, L2, owner, uid);
         return area;
