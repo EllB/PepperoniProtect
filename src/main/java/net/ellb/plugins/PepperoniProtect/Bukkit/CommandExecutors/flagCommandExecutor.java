@@ -10,8 +10,8 @@
 package net.ellb.plugins.PepperoniProtect.Bukkit.CommandExecutors;
 
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
-import net.ellb.plugins.PepperoniProtect.Protection.GlobalAreaManager;
 import net.ellb.plugins.PepperoniProtect.Util.PepperoniAreaFlagInfo;
+import net.ellb.plugins.PepperoniProtect.Protection.GlobalAreaManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -18,7 +18,7 @@ public class FileManager {
 
     public PepperoniAreasFile Areas;
     public PepperoniConfigurationFile Config;
-    public File AreasFile;
+    public File AreasFile = new File("plugins/PepperoniProtect/areas.yml");
     public File ConfigFile = new File("plugins/PepperoniProtect/config.yml");
     public PepperoniProtect plugin;
     static final Logger logger = Logger.getLogger("Minecraft");
@@ -27,7 +27,6 @@ public class FileManager {
         this.plugin = p;
         Areas = new PepperoniAreasFile();
         Config = new PepperoniConfigurationFile(plugin);
-        this.ReloadConfigFile();
     }
 
     public PepperoniAreasFile getAreasFile() {
@@ -43,43 +42,39 @@ public class FileManager {
         }
     }
 
-    public void ReloadConfigFile() {
-        logger.log(Level.INFO, "ReloadConfigFile method started...");
+    public void reloadConfigFile() {
         if (!ConfigFile.exists()) {
-            //TEMP:
-            logger.log(Level.INFO, "Configuration not found. ");
             plugin.saveDefaultConfig();
             try {
                 Config.load(ConfigFile);
             } catch (Exception ex) {
-                logger.log(Level.SEVERE, null, ex);
+                logger.log(Level.SEVERE, "Error when creating configuration file", ex);
             }
         } else {
             try {
                 Config.load(ConfigFile);
             } catch (Exception ex) {
-                logger.log(Level.SEVERE, "Error when loading configuration file. ", ex);
+                logger.log(Level.SEVERE, "Error when loading configuration file", ex);
             }
         }
         Config.loadFlagInfos();
     }
 
-    public void RealodAreasFile() {
-        if (!ConfigFile.exists()) {
+    public void realodAreasFile() {
+        if (!AreasFile.exists()) {
             Areas = new PepperoniAreasFile();
             try {
-                Areas.save(ConfigFile);
-                Areas.load(ConfigFile);
+                Areas.load(AreasFile);
             } catch (Exception ex) {
-                logger.log(Level.SEVERE, null, ex);
+                logger.log(Level.SEVERE, "Error when creating areas file", ex);
             }
         } else {
             try {
-                Areas.load(ConfigFile);
+                Areas.load(AreasFile);
             } catch (Exception ex) {
-                logger.log(Level.SEVERE, "Error when loading areas file. ", ex);
+                logger.log(Level.SEVERE, "Error when loading areas file", ex);
             }
         }
-        
+
     }
 }

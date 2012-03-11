@@ -75,3 +75,12 @@ flags:
     description: 'Determines if endermans in the area can pick up and place blocks. '
     default: false
     displayname: 'endermen'
+    
+  enter-message:
+    description: 'The message to be displayed when a player enters the area. '
+    default: 'N/A'
+    displayname: 'enter'
+  leave-message:
+    description: 'The message to be displayed when a player leaves the area. '
+    default: 'N/A'
+    displayname: 'leave'

@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import net.ellb.plugins.PepperoniProtect.Enums.MsgType;
-import net.ellb.plugins.PepperoniProtect.Protection.ProtectedArea;
+import net.ellb.plugins.PepperoniProtect.Protection.PepperoniArea;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -76,7 +76,7 @@ public class PepperoniGuide implements Listener {
     }
 
     public void saveArea(Player p) {
-        ProtectedArea a = plugin.getAreaManager().createArea(torch1.get(p), torch2.get(p), p);
+        PepperoniArea a = plugin.getAreaManager().createArea(torch1.get(p), torch2.get(p), p);
         plugin.getAreaManager().SaveAreas();
     }
 

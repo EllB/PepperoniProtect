@@ -23,10 +23,11 @@ public class GlobalAreaManager {
         this.plugin = p;
     }
     public PepperoniProtect plugin;
-    public Set<ProtectedArea> areas = new HashSet<ProtectedArea>();
+    public Set<PepperoniArea> areas = new HashSet<PepperoniArea>();
+    public static boolean reqPermissionInWilderness = true; //Temp, will be in the config file. 
 
-    public ProtectedArea getAreaByUID(String s) {
-        for (ProtectedArea a : this.getAreas()) {
+    public PepperoniArea getAreaByUID(String s) {
+        for (PepperoniArea a : this.getAreas()) {
             if (s.equals(a.getUID())) {
                 return a;
             }
@@ -35,24 +36,35 @@ public class GlobalAreaManager {
     }
 
     public boolean can(Player p, Location loc, String action) {
-        ProtectedArea area = this.getArea(loc);
-        if (!area.getStringFlag("owner").equals(p.getName())) {
-            if (!area.getStringListFlag("members").contains(p.getName()) && !area.getBooleanFlag(action + ".members")) {
-                if (!area.getBooleanFlag(action + ".outsider")) {
-                    return false;
+        PepperoniArea area = this.getArea(loc);
+        if (area != null) {
+            if (!area.getStringFlag("owner").equals(p.getName())) {
+                if (!area.getStringListFlag("members").contains(p.getName()) && !area.getBooleanFlag(action + ".members")) {
+                    if (!area.getBooleanFlag(action + ".outsider")) {
+                        return false;
+                    }
                 }
             }
+            return true;
         }
-        return true;
+        if (reqPermissionInWilderness) {
+            if (p.hasPermission("pepperoni.world." + loc.getWorld().getName() + "." + action)) {
+                return true;
+            }
+        } else {
+            return true;
+        }
+
+        return false;
     }
 
     public boolean should(Location loc, String action) {
         return getArea(loc).getBooleanFlag(action);
     }
 
-    public ProtectedArea getArea(Location loc) {
+    public PepperoniArea getArea(Location loc) {
         //TODO: Make this more fancy with parent-and-child areas:
-        for (ProtectedArea p : this.getAreas()) {
+        for (PepperoniArea p : this.getAreas()) {
             if (p.contains(loc)) {
                 return p;
             }
@@ -60,14 +72,13 @@ public class GlobalAreaManager {
         return null;
     }
 
-    public Set<ProtectedArea> getAreas() {
+    public Set<PepperoniArea> getAreas() {
         return areas;
     }
 
-    public ProtectedArea createArea(Location L1, Location L2, Player owner) {
-        ProtectedArea area = new ProtectedArea(plugin);
+    public PepperoniArea createArea(Location L1, Location L2, Player owner) {
         String uid = generateUID();
-        area.create(L1, L2, owner, uid);
+        PepperoniArea area = new PepperoniArea(plugin, L1, L2, owner, uid);
         return area;
     }
 
