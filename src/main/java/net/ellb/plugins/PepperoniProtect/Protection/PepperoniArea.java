@@ -1,7 +1,7 @@
 /*
  * PepperoniProtect
  * Copyright (C) 2012 EllB <http://www.ellb.net/>
- * 
+ *
  * This program is a part of The SpicyPack and is
  * therefore licensed under the SpicyCode custom
  * license <http://plugins.ellb.net/license/>.
@@ -12,10 +12,10 @@ package net.ellb.plugins.PepperoniProtect.Protection;
 import java.util.List;
 import java.util.Random;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
-import net.ellb.plugins.PepperoniProtect.Util.PepperoniAreasFile;
 import net.ellb.plugins.PepperoniProtect.Util.FileManager;
 import net.ellb.plugins.PepperoniProtect.Util.PepperoniAreaFlagInfo;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class PepperoniArea {
@@ -27,7 +27,7 @@ public class PepperoniArea {
     public FileManager fileManager;
     public Player owner;
     public PepperoniProtect plugin;
-    public PepperoniAreasFile config;
+    public FileConfiguration config;
 
     public PepperoniArea(PepperoniProtect p, Location p1, Location p2, Player owner, String uid) {
         this.plugin = p;
@@ -35,7 +35,7 @@ public class PepperoniArea {
         L1 = p1;
         L2 = p2;
         this.UID = uid;
-        for (PepperoniAreaFlagInfo inf : plugin.getFileManager().getConfiguration().getFlagInfos()) {
+        for (PepperoniAreaFlagInfo inf : plugin.getFlagManager().getFlags()) {
             if (inf.getDefault() instanceof String) {
                 String def = inf.getDefault().toString();
                 def.replace("loc1Y", Double.toString(p1.getY()));
@@ -53,19 +53,43 @@ public class PepperoniArea {
     }
 
     public String getStringFlag(String flag) {
-        return config.getStringFlag(this, flag);
+        if (flag == null) {
+            return null;
+        }
+        if (config.getString(this.getUID() + "." + flag) == null) {
+            return null;
+        }
+        return config.getString(this.getUID() + "." + flag);
     }
 
     public List<String> getStringListFlag(String flag) {
-        return config.getStringListFlag(this, flag);
+        if (flag == null) {
+            return null;
+        }
+        if (config.getStringList(this.getUID() + "." + flag) == null) {
+            return null;
+        }
+        return config.getStringList(this.getUID() + "." + flag);
     }
 
-    public boolean getBooleanFlag(String flag) {
-        return config.getBooleanFlag(this, flag);
+    public Boolean getBooleanFlag(String flag) {
+        if (flag == null) {
+            return null;
+        }
+        if (config.getString(this.getUID() + "." + flag) == null) {
+            return null;
+        }
+        return config.getBoolean(this.getUID() + "." + flag);
     }
 
-    public int getIntegerFlag(String flag) {
-        return config.getIntFlag(this, flag);
+    public Integer getIntegerFlag(String flag) {
+        if (flag == null) {
+            return null;
+        }
+        if (config.getInt(this.getUID() + "." + flag, 0) == 0) {
+            return null;
+        }
+        return config.getInt(this.getUID() + "." + flag);
     }
 
     public void setUID(String uid) {

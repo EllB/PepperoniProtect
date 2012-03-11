@@ -24,7 +24,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-
+//TODO: Fancifying this class.
 public class PepperoniGuide implements Listener {
 
     public PepperoniProtect plugin;
@@ -69,15 +69,15 @@ public class PepperoniGuide implements Listener {
     }
 
     public void finishProtection(Player p) {
-        saveArea(p);
+        createArea(p);
         sendMessage(MsgType.ASSISTANT, "You have now successfully protected an area! For more info on what to do with your area, type " + ChatColor.DARK_GREEN + "/protection" + ChatColor.WHITE + ".", p);
         setProtectionStage(p, 0);
         takeTorches(p);
     }
 
-    public void saveArea(Player p) {
+    public void createArea(Player p) {
         PepperoniArea a = plugin.getAreaManager().createArea(torch1.get(p), torch2.get(p), p);
-        plugin.getAreaManager().SaveAreas();
+        plugin.getFileManager().saveAreasFile();
     }
 
     public void takeTorches(Player p) {

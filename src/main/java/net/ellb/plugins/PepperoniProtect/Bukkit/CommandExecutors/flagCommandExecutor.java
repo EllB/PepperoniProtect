@@ -52,7 +52,7 @@ public class flagCommandExecutor implements CommandExecutor {
     public void sendFlagInfo(Player p) {
         p.sendMessage("To set a flag, type " + ChatColor.DARK_GREEN + "/flag [FLAGNAME] [VALUE]" + ChatColor.WHITE + ". Where " + ChatColor.DARK_GREEN + "[FLAGNAME]" + ChatColor.WHITE + " is the name of the flag you want to set, and " + ChatColor.DARK_GREEN + "[VALUE]" + ChatColor.WHITE + "is the value you want to set it to. ");
         p.sendMessage("-- Aviable Flags --");
-        for (PepperoniAreaFlagInfo flag : plugin.getFileManager().getConfiguration().getFlagInfos()) {
+        for (PepperoniAreaFlagInfo flag : plugin.getFlagManager().getFlags()) {
             p.sendMessage(ChatColor.DARK_GREEN + flag.getDisplayName() + ChatColor.WHITE + " " + flag.getDescription());
         }
     }

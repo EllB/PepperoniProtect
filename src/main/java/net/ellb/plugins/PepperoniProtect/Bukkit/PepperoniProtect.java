@@ -60,9 +60,12 @@ public class PepperoniProtect extends JavaPlugin {
         return areaManager;
     }
 
-    public void reloadStuff(){
-        
+    public void reloadStuff() {
+        fileManager.reloadAreasFile();
+        fileManager.reloadConfig();
+        flagManager.loadFlags();
     }
+
     public void registerCommands() {
         flagCommandExecutor flagC = new flagCommandExecutor(this);
         protectCommandExecutor protectC = new protectCommandExecutor(this);
@@ -86,8 +89,8 @@ public class PepperoniProtect extends JavaPlugin {
         }
         this.getServer().getPluginManager().registerEvents(guide, this);
         registerCommands();
-        fileManager.realodAreasFile();
-        fileManager.reloadConfigFile();
-        flagManager.loadFlags();
+        reloadStuff();
+        fileManager.saveAreasFile();
+        fileManager.saveConfig();
     }
 }

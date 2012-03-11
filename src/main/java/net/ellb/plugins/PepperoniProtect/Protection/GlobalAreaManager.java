@@ -12,7 +12,6 @@ package net.ellb.plugins.PepperoniProtect.Protection;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.logging.Level;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -98,21 +97,5 @@ public class GlobalAreaManager {
             }
         }
         return result;
-    }
-
-    public void SaveAreas() {
-        try {
-            plugin.getFileManager().getAreasFile().save();
-        } catch (Exception ex) {
-            plugin.getLogger().log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void LoadAreas() {
-        try {
-            plugin.getFileManager().getAreasFile().load();
-        } catch (Exception ex) {
-            plugin.getLogger().log(Level.SEVERE, null, ex);
-        }
     }
 }
