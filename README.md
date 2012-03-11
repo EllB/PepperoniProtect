@@ -6,7 +6,7 @@ PepperoniProtect is a simple prtection plugin for your Bukkit Minecraft server d
 
 License
 ---------
-The plugin is a part of "The SpicyPack" which is a package of plugins with spicy names (such as PepperoniProtect and ChiliChat). All plugins in the spicy pack is licensed under my home-made license called the SpicyCode license, smart, isn't it ;-)
+The plugin is a part of "The SpicyPack" which is a package of plugins with spicy names (such as PepperoniProtect and ChiliChat). All plugins in the spicy pack is licensed under my home-made license called the SpicyCode license, smart, isn't it? ;-)
 
 Contributing
 ---------------
