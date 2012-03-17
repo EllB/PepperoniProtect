@@ -21,6 +21,8 @@ public class FileManager {
 
     public FileConfiguration Areas;
     public FileConfiguration Config;
+    public FileConfiguration Worlds;
+    public File WorldsFile;
     public File AreasFile = null;
     public File ConfigFile = null;
     public PepperoniProtect plugin;
@@ -49,11 +51,10 @@ public class FileManager {
             ConfigFile = new File(plugin.getDataFolder(), "config.yml");
         }
         Config = YamlConfiguration.loadConfiguration(ConfigFile);
-        Areas.options().copyDefaults(true);
         InputStream defConfigStream = plugin.getResource("config.yml");
         if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            Config.setDefaults(defConfig);
+            Config = YamlConfiguration.loadConfiguration(defConfigStream);
+            saveConfig();
         }
     }
 

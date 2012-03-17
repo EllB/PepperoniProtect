@@ -1,86 +1,84 @@
-# The main configuration file for the PepperoniProtect plugin. 
-
-chat:
-  # Color for the [Protection Assistant] label when protecting an area. Default 'd'(LIGHT_PURPLE).
-  ProtectionAssistantNameColor: 'd'
-  
-  # The color to use when the plugin is mentioning a command (such as '...area type /protect again...'). Enter color code, default 2 (DARK_GREEN)
-  CommandColor: '2'
-
-
-
+# The main configuration file for the PepperoniProtect plugin.
 
 flags:
-  position1.y:
-    description: 'Pos1Y'
-    default: 'loc1Y'
-    displayname: 'pos1y'
+  world:
+    description: 'The name of the world that the area currently is in.'
+    default: [DEFAULT]
+    displayname: world
+  position1/y:
+    description: 'The Y coordinates for corner 1 of your area.'
+    default: [DEFAULT]
+    displayname: pos1y
     
-  position1.x:
-    description: 'Pos1X'
-    default: 'loc1X'
-    displayname: 'pos1x'
+  position1/x:
+    description: 'The X coordinates for corner 1 of your area.'
+    default: [DEFAULT]
+    displayname: pos1x
     
-  position2.y:
-    description: 'Pos2Y'
-    default: 'loc2X'
-    displayname: 'pos2y'
+  position2/y:
+    description: 'The Y coordinates for corner 2 of your area.'
+    default: [DEFAULT]
+    displayname: pos2y
     
-  position2.x:
-    description: 'Pos2X'
-    default: 'loc2x'
-    displayname: 'pos2x'
+  position2/x:
+    description: 'The X coordinates for corner 2 of your area.'
+    default: [DEFAULT]
+    displayname: pos2x
     
-  build.member:
-    description: 'Determines whether or not the members of the area are allowed to build. '
+  build/member:
+    description: 'Determines whether or not the members of the area are allowed to build.'
     default: true
-    displayname: 'member/build'
+    displayname: member/build
     
-  build.outsider:
-    description: 'Determines whether or not outsiders can build/destroy blocks in the area. '
+  build/outsider:
+    description: 'Determines whether or not outsiders can build/destroy blocks in the area.'
     default: false
-    displayname: 'outsider/build'
+    displayname: outsider/build
     
   piston_move:
-    description: 'Determines if pistons in the area can extend/retract. '
+    description: 'Determines if pistons in the area can extend/retract.'
     default: true
-    displayname: 'pistons'
+    displayname: pistons
     
-  fire.ignite.member:
-    description: 'Determines if members of the area can set blocks on fire there. '
+  fire/ignite/member:
+    description: 'Determines if members of the area can set blocks on fire there.'
     default: true
-    displayname: 'member/burnstuff'
+    displayname: member/burnstuff
     
-  fire.ignite.outsider:
-    description: 'Determines if outsiders can set blocks on fire in the area. '
+  fire/ignite/outsider:
+    description: 'Determines if outsiders can set blocks on fire in the area.'
     default: false
-    displayname: 'outsider/burnstuff'
+    displayname: outsider/burnstuff
     
-  fire.burnblocks:
-    description: 'Determines if fire in the area destroys the blocks. '
+  fire/burnblocks:
+    description: 'Determines if fire in the area destroys the blocks.'
     default: true
-    displayname: 'blocks_burn'
+    displayname: blocks_burn
     
   boom:
-    description: 'Determines if TnT in the area can explode. '
+    description: 'Determines if TnT in the area can explode.'
     default: true
-    displayname: 'explosion'
+    displayname: explosion
     
-  mobs.spawn:
-    description: 'Determines if mobs in the area can spawn. '
+  mobs/spawn:
+    description: 'Determines if mobs in the area can spawn.'
     default: true
-    displayname: 'mobs'
+    displayname: mobs
     
   enderman_grief:
-    description: 'Determines if endermans in the area can pick up and place blocks. '
+    description: 'Determines if endermen in the area can pick up and place blocks.'
     default: false
-    displayname: 'endermen'
+    displayname: endermen
     
   enter-message:
-    description: 'The message to be displayed when a player enters the area. '
+    description: 'The message to be displayed when a player enters the area.'
     default: 'N/A'
-    displayname: 'enter'
+    displayname: enter-msg
   leave-message:
-    description: 'The message to be displayed when a player leaves the area. '
-    default: 'N/A'
-    displayname: 'leave'
+    description: 'The message to be displayed when a player leaves the area.'
+    default: N/A
+    displayname: leave-msg
+  owner:
+    description: The owner of the area.
+    default: [DEFAULT]
+    displayname: owner

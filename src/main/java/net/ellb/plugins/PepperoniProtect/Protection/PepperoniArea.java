@@ -9,8 +9,11 @@
  */
 package net.ellb.plugins.PepperoniProtect.Protection;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import net.ellb.plugins.PepperoniProtect.Util.FileManager;
 import net.ellb.plugins.PepperoniProtect.Util.PepperoniAreaFlagInfo;
@@ -36,20 +39,58 @@ public class PepperoniArea {
         L2 = p2;
         this.UID = uid;
         for (PepperoniAreaFlagInfo inf : plugin.getFlagManager().getFlags()) {
-            if (inf.getDefault() instanceof String) {
-                String def = inf.getDefault().toString();
-                def.replace("loc1Y", Double.toString(p1.getY()));
-                def.replace("loc1X", Double.toString(p1.getX()));
-                def.replace("loc2Y", Double.toString(p2.getY()));
-                def.replace("loc2X", Double.toString(p2.getX()));
-                def.replace("owner", owner.getName());
-            }
-            this.setFlag(inf.getPath(), inf.getDefault());
+            defaultFlag(inf, p1, p2, owner);
         }
     }
 
     public String getUID() {
         return UID;
+    }
+
+    private void defaultFlag(PepperoniAreaFlagInfo pafi, Location p1, Location p2, Player owner) {
+        Object value = null;
+        if (pafi.getDefault().toString().equalsIgnoreCase("[DEFAULT]")) {
+            if (pafi.getPath().equalsIgnoreCase("position1/y")) {
+                value = p1.getBlockY();
+            } else if (pafi.getPath().equalsIgnoreCase("position1/x")) {
+                value = p1.getBlockX();
+            } else if (pafi.getPath().equalsIgnoreCase("position2/y")) {
+                value = p2.getBlockY();
+            } else if (pafi.getPath().equalsIgnoreCase("position2/x")) {
+                value = p2.getBlockX();
+            } else if (pafi.getPath().equalsIgnoreCase("owner")) {
+                value = owner.getName();
+            } else if (pafi.getPath().equalsIgnoreCase("world")) {
+                value = p1.getWorld().getName();
+            }
+        } else {
+            value = pafi.getDefault();
+        }
+        this.setFlag(pafi.getPath(), value);
+    }
+
+    public int getSize() {
+        return getYBlocks() * getXBlocks();
+    }
+
+    public int getXBlocks() {
+        if (L1.getBlockX() > L2.getBlockX()) {
+            return L1.getBlockX() - L2.getBlockX();
+        }
+        if (L2.getBlockX() > L1.getBlockX()) {
+            return L2.getBlockX() - L1.getBlockX();
+        }
+        return 1;
+    }
+
+    public int getYBlocks() {
+        if (L1.getBlockY() > L2.getBlockY()) {
+            return L1.getBlockY() - L2.getBlockY();
+        }
+        if (L2.getBlockY() > L1.getBlockY()) {
+            return L2.getBlockY() - L1.getBlockY();
+        }
+        return 1;
     }
 
     public String getStringFlag(String flag) {

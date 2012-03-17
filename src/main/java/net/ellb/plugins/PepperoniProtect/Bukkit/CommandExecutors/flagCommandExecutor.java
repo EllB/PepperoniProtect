@@ -12,6 +12,7 @@ package net.ellb.plugins.PepperoniProtect.Bukkit.CommandExecutors;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import net.ellb.plugins.PepperoniProtect.Util.PepperoniAreaFlagInfo;
 import net.ellb.plugins.PepperoniProtect.Protection.GlobalAreaManager;
+import net.ellb.plugins.PepperoniProtect.Util.FlagManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,39 +22,65 @@ import org.bukkit.entity.Player;
 public class flagCommandExecutor implements CommandExecutor {
 
     PepperoniProtect plugin;
-    public GlobalAreaManager areaManager;
+    private GlobalAreaManager areaManager;
+    private FlagManager flagManager;
+    private static String instructions = "To set a flag, type " + ChatColor.DARK_GREEN + "/flag [FLAGNAME] [VALUE]" + ChatColor.WHITE + ". Where " + ChatColor.DARK_GREEN + "[FLAGNAME]" + ChatColor.WHITE + " is the name of the flag you want to set, and " + ChatColor.DARK_GREEN + "[VALUE]" + ChatColor.WHITE + "is the value you want to set it to.";
 
     public flagCommandExecutor(PepperoniProtect p) {
         this.plugin = p;
         this.areaManager = p.getAreaManager();
+        this.flagManager = p.getFlagManager();
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player;
         if (sender instanceof Player) {
             player = (Player) sender;
-            if (args.length < 1) {
-                sendFlagInfo(player);
-            }
-            if (args.length > 2) {
-                player.sendMessage(ChatColor.RED + "Too many arguments! Correct usage: /" + label + " [flag] [value]");
-            }
-            if (args.length == 1) {
-                if (areaManager.getArea(player.getLocation()) != null) {
-                    areaManager.getArea(player.getLocation()).setFlag(args[0], args[1]);
+            if (flagManager.getFlagByDisplayName(args[0]) == null) {
+                player.sendMessage(ChatColor.RED + "That flag does not exist, please check your spelling.");
+            } else {
+                if (player.hasPermission("pepperoni.flag.set." + flagManager.getFlagByDisplayName(args[0]))) {
+                    if (areaManager.getArea(player.getLocation()) == null) {
+                        player.sendMessage(ChatColor.RED + "You need to be inside an area to be able to change the flag.");
+                    } else {
+                        if (!canChange(player)) {
+                            player.sendMessage(ChatColor.RED + "This isn't your protection, so why would you be able to modify it? (You are not allowed)");
+                        } else {
+                            switch (args.length) {
+                                case 0:
+                                    sendFlagInfo(player);
+                                case 1:
+                                    player.sendMessage(instructions);
+                                case 2:
+                            }
+                        }
+                    }
+
+                } else {
+                    player.sendMessage(ChatColor.RED + "Sorry, but you aren't allowed to set that flag.");
                 }
             }
+
         } else {
-            sender.sendMessage(ChatColor.RED + "I'm not gonna let you use that command, cause you're outside an area. Additionally you're still not human-ish enough.");
+            sender.sendMessage(ChatColor.RED + "Sorry, you are not a real player, just a console. Please go in-game.");
         }
         return true;
     }
 
-    public void sendFlagInfo(Player p) {
-        p.sendMessage("To set a flag, type " + ChatColor.DARK_GREEN + "/flag [FLAGNAME] [VALUE]" + ChatColor.WHITE + ". Where " + ChatColor.DARK_GREEN + "[FLAGNAME]" + ChatColor.WHITE + " is the name of the flag you want to set, and " + ChatColor.DARK_GREEN + "[VALUE]" + ChatColor.WHITE + "is the value you want to set it to. ");
+    //Some mini-helpers
+    private boolean canChange(Player p) {
+        if (!p.hasPermission("pepperoni.admin")) {
+            if (!areaManager.getArea(p.getLocation()).getStringFlag("owner").equalsIgnoreCase(p.getName())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void sendFlagInfo(Player p) {
         p.sendMessage("-- Aviable Flags --");
         for (PepperoniAreaFlagInfo flag : plugin.getFlagManager().getFlags()) {
-            p.sendMessage(ChatColor.DARK_GREEN + flag.getDisplayName() + ChatColor.WHITE + " " + flag.getDescription());
+            p.sendMessage(ChatColor.DARK_GREEN + flag.getDisplayName() + ChatColor.WHITE + " -- " + flag.getDescription());
         }
     }
 }

@@ -23,7 +23,7 @@ public class GlobalAreaManager {
     }
     public PepperoniProtect plugin;
     public Set<PepperoniArea> areas = new HashSet<PepperoniArea>();
-    public static boolean reqPermissionInWilderness = true; //Temp, will be in the config file. 
+    public static boolean reqPermissionInWilderness = true; //Temp, will be in the config file.
 
     public PepperoniArea getAreaByUID(String s) {
         for (PepperoniArea a : this.getAreas()) {
@@ -34,7 +34,7 @@ public class GlobalAreaManager {
         return null;
     }
 
-    public boolean can(Player p, Location loc, String action) {
+    public boolean can(Player p, String action, Location loc) {
         PepperoniArea area = this.getArea(loc);
         if (area != null) {
             if (!area.getStringFlag("owner").equals(p.getName())) {
@@ -53,16 +53,18 @@ public class GlobalAreaManager {
         } else {
             return true;
         }
-
         return false;
     }
 
-    public boolean should(Location loc, String action) {
+    public boolean should(String action, Location loc) {
+        if (getArea(loc) == null) {
+            //TODO: Check for exceptions in worlds file (when I add that)
+            return true;
+        }
         return getArea(loc).getBooleanFlag(action);
     }
 
     public PepperoniArea getArea(Location loc) {
-        //TODO: Make this more fancy with parent-and-child areas:
         for (PepperoniArea p : this.getAreas()) {
             if (p.contains(loc)) {
                 return p;

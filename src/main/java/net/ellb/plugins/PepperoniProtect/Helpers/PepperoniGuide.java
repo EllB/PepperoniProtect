@@ -11,8 +11,11 @@ package net.ellb.plugins.PepperoniProtect.Helpers;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.ellb.plugins.PepperoniProtect.Bukkit.PepperoniProtect;
 import net.ellb.plugins.PepperoniProtect.Enums.MsgType;
+import net.ellb.plugins.PepperoniProtect.Protection.GlobalAreaManager;
 import net.ellb.plugins.PepperoniProtect.Protection.PepperoniArea;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -24,7 +27,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-//TODO: Fancifying this class.
+
 public class PepperoniGuide implements Listener {
 
     public PepperoniProtect plugin;
@@ -34,6 +37,7 @@ public class PepperoniGuide implements Listener {
     public Map<Player, Location> torch2 = new HashMap<Player, Location>();
     static boolean giveTorches = true;
     static Material protectionBlock = Material.REDSTONE_TORCH_ON;
+    static final Logger logger = Logger.getLogger("Minecraft");
     static boolean economy = false;
 
     public PepperoniGuide(PepperoniProtect p) {
@@ -45,7 +49,7 @@ public class PepperoniGuide implements Listener {
             p.getInventory().addItem(new ItemStack(protectionBlock, 2));
         }
         setProtectionStage(p, 1);
-        sendMessage(MsgType.ASSISTANT, "Protection of area started. Place two redstone torches, then type" + ChatColor.DARK_GREEN + "/protect" + ChatColor.DARK_GREEN + " again to protect the area. ", p);
+        sendMessage(MsgType.ASSISTANT, "Protection of area started. Place two redstone torches, then type" + ChatColor.DARK_GREEN + "/protect" + ChatColor.WHITE + " again to protect the area.", p);
         torch.put(p, 1);
     }
 
@@ -65,7 +69,7 @@ public class PepperoniGuide implements Listener {
 
     public void confirmProtection(Player p) {
         setProtectionStage(p, 2);
-        sendMessage(MsgType.ASSISTANT, "Area selected, are you sure you want to protect the area? Type " + ChatColor.DARK_GREEN + "/protect" + ChatColor.WHITE + " to protect the area, or break any block to cancel the protection. ", p);
+        sendMessage(MsgType.ASSISTANT, "Area selected, are you sure you want to protect the area? Type " + ChatColor.DARK_GREEN + "/protect" + ChatColor.WHITE + " to protect the area, or break any block to cancel the protection.", p);
     }
 
     public void finishProtection(Player p) {
@@ -76,8 +80,23 @@ public class PepperoniGuide implements Listener {
     }
 
     public void createArea(Player p) {
-        PepperoniArea a = plugin.getAreaManager().createArea(torch1.get(p), torch2.get(p), p);
-        plugin.getFileManager().saveAreasFile();
+        GlobalAreaManager am = plugin.getAreaManager();
+        if (canCreate(p)) {
+            PepperoniArea a = am.createArea(torch1.get(p), torch2.get(p), p);
+            plugin.getFileManager().saveAreasFile();
+            logger.log(Level.INFO, p.getDisplayName() + " did just create a new area with UID " + a.getUID() + ".");
+            return;
+        }
+        logger.log(Level.INFO, p.getDisplayName() + " did just try to create an area without any success.");
+    }
+
+    public boolean canCreate(Player p) {
+        //TODO: Check for area-collision, cretion permission, and more.
+        return true;
+    }
+
+    public void debug(String msg) {
+        logger.log(Level.INFO, msg);
     }
 
     public void takeTorches(Player p) {
@@ -111,7 +130,7 @@ public class PepperoniGuide implements Listener {
     }
 
     @EventHandler
-    public void blockPlace(BlockPlaceEvent e) {
+    public void onBlockPlace(BlockPlaceEvent e) {
         if (e.getBlock().getType() == protectionBlock) {
             if (protectionStage.get(e.getPlayer()) == 1) {
                 if (torch.get(e.getPlayer()) == 1) {
@@ -126,12 +145,12 @@ public class PepperoniGuide implements Listener {
     }
 
     @EventHandler
-    public void playerJoin(PlayerJoinEvent e) {
+    public void onPlayerJoin(PlayerJoinEvent e) {
         setProtectionStage(e.getPlayer(), 0);
     }
 
     @EventHandler
-    public void blockBreak(BlockBreakEvent e) {
+    public void onBlockBreak(BlockBreakEvent e) {
         if (protectionStage.get(e.getPlayer()) > 0) {
             if (e.getBlock().getType() != protectionBlock) {
                 cancelProtection(e.getPlayer());
