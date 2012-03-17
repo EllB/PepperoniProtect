@@ -3,16 +3,16 @@
 flags:
   world:
     description: 'The name of the world that the area currently is in.'
-    default: [DEFAULT]
+    default: DEFAULT
     displayname: world
   position1/y:
     description: 'The Y coordinates for corner 1 of your area.'
-    default: [DEFAULT]
+    default: DEFAULT
     displayname: pos1y
     
   position1/x:
     description: 'The X coordinates for corner 1 of your area.'
-    default: [DEFAULT]
+    default: DEFAULT
     displayname: pos1x
     
   position2/y:
@@ -22,7 +22,7 @@ flags:
     
   position2/x:
     description: 'The X coordinates for corner 2 of your area.'
-    default: [DEFAULT]
+    default: DEFAULT
     displayname: pos2x
     
   build/member:
@@ -80,5 +80,5 @@ flags:
     displayname: leave-msg
   owner:
     description: The owner of the area.
-    default: [DEFAULT]
+    default: DEFAULT
     displayname: owner

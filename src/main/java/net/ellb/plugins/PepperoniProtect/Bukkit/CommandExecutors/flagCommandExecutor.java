@@ -20,18 +20,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class flagCommandExecutor implements CommandExecutor {
-    
+
     PepperoniProtect plugin;
     private GlobalAreaManager areaManager;
     private FlagManager flagManager;
     private static String instructions = "To set a flag, type " + ChatColor.DARK_GREEN + "/flag [FLAGNAME] [VALUE]" + ChatColor.WHITE + ". Where " + ChatColor.DARK_GREEN + "[FLAGNAME]" + ChatColor.WHITE + " is the name of the flag you want to set, and " + ChatColor.DARK_GREEN + "[VALUE]" + ChatColor.WHITE + "is the value you want to set it to.";
-    
+
     public flagCommandExecutor(PepperoniProtect p) {
         this.plugin = p;
         this.areaManager = p.getAreaManager();
         this.flagManager = p.getFlagManager();
     }
-    
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player;
         if (sender instanceof Player) {
@@ -42,7 +42,7 @@ public class flagCommandExecutor implements CommandExecutor {
             } else {
                 if (player.hasPermission("pepperoni.flag.set." + flag.getPath())) {
                     if (areaManager.getArea(player.getLocation()) == null) {
-                        player.sendMessage(ChatColor.RED + "You need to be inside an area to be able to change the flag.");
+                        player.sendMessage(ChatColor.RED + "You need to be inside an area to be able to change that flag.");
                     } else {
                         if (!canChange(player)) {
                             player.sendMessage(ChatColor.RED + "This isn't your protection, so why would you be able to modify it? (You are not allowed)");
@@ -65,7 +65,7 @@ public class flagCommandExecutor implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "Sorry, but you aren't allowed to set that flag.");
                 }
             }
-            
+
         } else {
             sender.sendMessage(ChatColor.RED + "Sorry, you are not a real player, just a console. Please go in-game.");
         }
@@ -81,7 +81,7 @@ public class flagCommandExecutor implements CommandExecutor {
         }
         return true;
     }
-    
+
     private void sendFlagInfo(Player p) {
         p.sendMessage("-- Aviable Flags --");
         for (PepperoniAreaFlagInfo flag : plugin.getFlagManager().getFlags()) {
